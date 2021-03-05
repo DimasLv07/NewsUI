@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import SwiftyJSON
 
-class NewsViewModel: ObservableObject {
+class NewsModel: ObservableObject {
     @Published var data = [News]()
     
     init() {
@@ -17,9 +17,9 @@ class NewsViewModel: ObservableObject {
         
         let session = URLSession(configuration: .default)
         
-        session.dataTask(with: URL(string: url)!){ (data, _, error) in
-            if error != nil{
-                print((error?.localizedDescription)!)
+        session.dataTask(with: URL(string: url)!){ (data, _, err) in
+            if err != nil{
+                print((err?.localizedDescription)!)
                 return
             }
             
@@ -29,10 +29,10 @@ class NewsViewModel: ObservableObject {
             for i in items{
                 let title = i["title"].stringValue
                 let description = i["description"].stringValue
-                let image = i["urlToImage"].stringValue
+                let imurl = i["urlToImage"].stringValue
                 
                 DispatchQueue.main.async {
-                    self.data.append(News(title: title, image: image, description: description))
+                    self.data.append(News(title: title, image: imurl, description: description))
                 }
             }
         

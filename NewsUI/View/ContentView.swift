@@ -24,13 +24,16 @@ struct ContentView_Previews: PreviewProvider {
 
 struct Home: View {
     
-    @ObservedObject var newsViewModel = NewsViewModel()
-    
+    @ObservedObject var Books = NewsModel()
+    @State var show = false
+    @State var url = ""
+  
+  
     var body: some View{
-        List(newsViewModel.data){ item in
+        List(Books.data){ i in
             HStack{
-                if item.image != ""{
-                    WebImage(url: URL(string: item.image)!)
+                if i.image != ""{
+                    WebImage(url: URL(string: i.image)!)
                         .resizable()
                         .frame(width: 120, height: 170)
                         .background(Image("loader")
@@ -47,9 +50,9 @@ struct Home: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 10){
-                    Text(item.title).fontWeight(.bold)
+                    Text(i.title).fontWeight(.bold)
                     
-                    Text(item.description).font(.caption)
+                    Text(i.description).font(.caption)
                         .lineLimit(4)
                         .multilineTextAlignment(.leading)
                 }
